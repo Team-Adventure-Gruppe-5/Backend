@@ -34,9 +34,9 @@ jobs:
       - name: Run tests
         run: mvn test
 
-      - run: docker build . --tag Backend:test
+      - run: docker build . --tag backend:test
       - run: |
-          docker run -d --name backend-container -p 8080:8080 Backend:test
+          docker run -d --name backend-container -p 8080:8080 backend:test
           sleep 30
           curl -f http://localhost:8080/healthz || exit 1
           docker stop backend-container
