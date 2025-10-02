@@ -1,0 +1,45 @@
+name: Java CI
+
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    branches:
+      - development
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 #v5.0.0, 2025-08-21
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0, 2025-09-24
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-${{ runner.os }}-
+
+      - name: Run tests
+        run: mvn test
+
+
+      #- run: docker build . --tag backend:test
+      #- run: |
+          #docker run -d --name backend-container -p 8080:8080 backend:test
+          #sleep 30
+          #curl -f http://localhost:8080/healthz || exit 1
+          #docker stop backend-container
+          #docker rm backend-container
+
