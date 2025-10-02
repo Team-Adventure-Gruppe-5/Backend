@@ -1,4 +1,4 @@
-package controller;
+package com.example.adventurexpbackend.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
