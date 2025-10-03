@@ -24,8 +24,10 @@ public class AdventureXpBackendApplication {
 
             final List<Activity> activities = new ArrayList<>();
             activities.add(new Activity("Go-karting", 500, 1));
-
-
+            activities.add(new Activity("Paintball", 400, 1));
+            activities.add(new Activity("Sumo-wrestling", 300, 1));
+            activities.add(new Activity("Mini golf", 100, 1));
+            activityRepo.saveAll(activities);
 
         } );
     }

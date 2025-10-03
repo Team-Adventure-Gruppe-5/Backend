@@ -9,8 +9,8 @@ public class Activity {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int price;
-    private int duration;
+    private int price; //price is in EUR.
+    private int duration; //duration is measured in hours, i.e 1 = 1 hour.
 
     public Activity(String name, int price, int duration) {
         this.name = name;
