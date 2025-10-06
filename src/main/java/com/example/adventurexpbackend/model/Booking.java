@@ -1,10 +1,11 @@
 package com.example.adventurexpbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Booking {
@@ -18,17 +19,19 @@ public class Booking {
     private int participents;
 
     @ManyToOne //owns the relationship
-    @JoinColumn(name="user_id")
-    @JsonBackReference
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
     User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "activity_id", nullable = true)
+    @JsonBackReference
     Activity activity;
 
-    @OneToOne
-    @JoinColumn(name = "package_id", nullable = true)
-    Package aPackage;
+    @ManyToOne
+    @JoinColumn(name = "eventpackage_id", nullable = true)
+    @JsonBackReference
+    EventPackage eventPackage;
 
     public Booking() {
     }
@@ -89,11 +92,11 @@ public class Booking {
         this.activity = activity;
     }
 
-    public Package getaPackage() {
-        return aPackage;
+    public EventPackage getaPackage() {
+        return eventPackage;
     }
 
-    public void setaPackage(Package aPackage) {
-        this.aPackage = aPackage;
+    public void setaPackage(EventPackage aEventPackage) {
+        this.eventPackage = aEventPackage;
     }
 }

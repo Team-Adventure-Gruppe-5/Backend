@@ -1,5 +1,8 @@
 package com.example.adventurexpbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.List;
 public class Activity {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @Column(length = 1000)
@@ -18,10 +21,12 @@ public class Activity {
     private int duration; //duration is measured in hours, i.e 1 = 1 hour.
 
     @ManyToMany(mappedBy = "activities")
-    List<Package> packages = new ArrayList<>();
+    @JsonIgnore
+    List<EventPackage> eventPackages = new ArrayList<>();
 
-    @OneToOne(mappedBy = "activity")
-    Booking booking;
+    @OneToMany(mappedBy = "activity")
+    @JsonManagedReference
+    List<Booking> bookings = new ArrayList<>();
 
     public Activity(String name, String description, int price, int duration) {
         this.name = name;
@@ -30,7 +35,8 @@ public class Activity {
         this.duration = duration;
     }
 
-    public Activity(){}
+    public Activity() {
+    }
 
     public int getId() {
         return id;
@@ -72,19 +78,20 @@ public class Activity {
         this.duration = duration;
     }
 
-    public List<Package> getPackages() {
-        return packages;
+
+    public List<EventPackage> getEventPackages() {
+        return eventPackages;
     }
 
-    public void setPackages(List<Package> packages) {
-        this.packages = packages;
+    public void setEventPackages(List<EventPackage> eventPackages) {
+        this.eventPackages = eventPackages;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
