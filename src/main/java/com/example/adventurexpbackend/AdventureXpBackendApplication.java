@@ -1,7 +1,9 @@
 package com.example.adventurexpbackend;
 
 import com.example.adventurexpbackend.model.Activity;
+import com.example.adventurexpbackend.model.Employee;
 import com.example.adventurexpbackend.repository.ActivityRepo;
+import com.example.adventurexpbackend.repository.EmployeeRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +21,7 @@ public class AdventureXpBackendApplication {
 
 
     @Bean
-    public CommandLineRunner importData (ActivityRepo activityRepo){
+    public CommandLineRunner importData (ActivityRepo activityRepo, EmployeeRepo employeeRepo){
         return (args ->{
 
             final List<Activity> activities = new ArrayList<>();
@@ -51,6 +53,26 @@ public class AdventureXpBackendApplication {
                     " Experience a playful and engaging activity that guarantees laughter and friendly" +
                     " competition!", 100, 1));
             activityRepo.saveAll(activities);
+
+
+
+            //creates a list of employees
+            final List<Employee> employees = new ArrayList<>();
+            employees.add(new Employee("Lærke", "Lønborg", "lalo", "1234"));
+            employees.add(new Employee("Kasper", "Persson", "kape", "1234"));
+            employees.add(new Employee("Cami", "Hansen", "caha", "1234"));
+            employees.add(new Employee("Brandon","Walsh", "brwa", "1234"));
+            employees.add(new Employee("Andrea", "Zuckerman", "anzu", "1234"));
+            employees.add(new Employee("Kelly", "Taylor", "keta", "1234"));
+            employees.add(new Employee("Dylan", "McKay", "dymc", "1234"));
+            employees.add(new Employee("Steve", "Sanders", "stsa", "1234"));
+            employees.add(new Employee("Donna", "Martin", "doma", "1234"));
+            employees.add(new Employee("David", "Silver", "dasi", "1234"));
+            employeeRepo.saveAll(employees);
+
+
+
+
 
         } );
     }
