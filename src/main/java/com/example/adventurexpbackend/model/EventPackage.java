@@ -1,7 +1,6 @@
 package com.example.adventurexpbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Activity {
+public class EventPackage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,25 +16,22 @@ public class Activity {
     private String name;
     @Column(length = 1000)
     private String description;
-    private int price; //price is in EUR.
-    private int duration; //duration is measured in hours, i.e 1 = 1 hour.
+    private int price;
 
-    @ManyToMany(mappedBy = "activities")
-    @JsonIgnore
-    List<EventPackage> eventPackages = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "package_activity", //the name of the join table
+            joinColumns = @JoinColumn(name = "package_id"), //column pointing at this table
+            inverseJoinColumns = @JoinColumn(name = "activity_id") //column pointing at the second table
+    )
+    @JsonManagedReference
+    List<Activity> activities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "activity")
+    @OneToMany (mappedBy = "eventPackage")
     @JsonManagedReference
     List<Booking> bookings = new ArrayList<>();
 
-    public Activity(String name, String description, int price, int duration) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.duration = duration;
-    }
-
-    public Activity() {
+    public EventPackage() {
     }
 
     public int getId() {
@@ -70,21 +66,12 @@ public class Activity {
         this.price = price;
     }
 
-    public int getDuration() {
-        return duration;
+    public List<Activity> getActivities() {
+        return activities;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-
-    public List<EventPackage> getEventPackages() {
-        return eventPackages;
-    }
-
-    public void setEventPackages(List<EventPackage> eventPackages) {
-        this.eventPackages = eventPackages;
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     public List<Booking> getBookings() {
