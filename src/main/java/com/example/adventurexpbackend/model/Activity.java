@@ -17,7 +17,7 @@ public class Activity {
     private String name;
     @Column(length = 1000)
     private String description;
-    private int price; //price is in EUR.
+    private int price; //price is in DKK
     private int duration; //duration is measured in hours, i.e 1 = 1 hour.
 
     @ManyToMany(mappedBy = "activities")
