@@ -17,9 +17,9 @@ public class Booking {
     private int participents;
 
     @ManyToOne //owns the relationship
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "costumer_id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    User user;
+    Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "activity_id", nullable = true)
@@ -74,12 +74,20 @@ public class Booking {
         this.participents = participents;
     }
 
-    public User getUser() {
-        return user;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public EventPackage getEventPackage() {
+        return eventPackage;
+    }
+
+    public void setEventPackage(EventPackage eventPackage) {
+        this.eventPackage = eventPackage;
     }
 
     public Activity getActivity() {
@@ -90,11 +98,4 @@ public class Booking {
         this.activity = activity;
     }
 
-    public EventPackage getaPackage() {
-        return eventPackage;
-    }
-
-    public void setaPackage(EventPackage aEventPackage) {
-        this.eventPackage = aEventPackage;
-    }
 }
