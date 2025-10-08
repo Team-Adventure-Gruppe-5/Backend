@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -59,6 +61,12 @@ public class BookingController {
 
         bookingRepo.save(booking);
         return ResponseEntity.ok(booking);
+    }
+
+    @GetMapping("/bookings") //change later for "/employee/{employeeid}/bookings" when employee and booking have a relation
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        List<Booking> bookings = bookingRepo.findAll();
+        return ResponseEntity.ok(bookings);
     }
 
 }
