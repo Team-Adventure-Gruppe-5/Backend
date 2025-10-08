@@ -1,11 +1,7 @@
 package com.example.adventurexpbackend;
 
-import com.example.adventurexpbackend.model.Activity;
-import com.example.adventurexpbackend.model.Employee;
-import com.example.adventurexpbackend.model.EventPackage;
-import com.example.adventurexpbackend.repository.ActivityRepo;
-import com.example.adventurexpbackend.repository.EmployeeRepo;
-import com.example.adventurexpbackend.repository.EventPackageRepo;
+import com.example.adventurexpbackend.model.*;
+import com.example.adventurexpbackend.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -119,6 +115,7 @@ public class AdventureXpBackendApplication {
             allEventPackages.add(companyEvent);
 
             eventPackageRepo.saveAll(allEventPackages);
+
 
         });
     }
