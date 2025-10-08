@@ -1,8 +1,6 @@
 package com.example.adventurexpbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -20,17 +18,17 @@ public class Booking {
 
     @ManyToOne //owns the relationship
     @JoinColumn(name = "user_id")
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     User user;
 
     @ManyToOne
     @JoinColumn(name = "activity_id", nullable = true)
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     Activity activity;
 
     @ManyToOne
     @JoinColumn(name = "eventpackage_id", nullable = true)
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     EventPackage eventPackage;
 
     public Booking() {

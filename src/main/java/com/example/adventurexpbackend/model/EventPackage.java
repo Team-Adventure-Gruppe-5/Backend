@@ -1,7 +1,9 @@
 package com.example.adventurexpbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,11 +26,11 @@ public class EventPackage {
             joinColumns = @JoinColumn(name = "package_id"), //column pointing at this table
             inverseJoinColumns = @JoinColumn(name = "activity_id") //column pointing at the second table
     )
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     List<Activity> activities = new ArrayList<>();
 
     @OneToMany (mappedBy = "eventPackage")
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     List<Booking> bookings = new ArrayList<>();
 
     public EventPackage() {

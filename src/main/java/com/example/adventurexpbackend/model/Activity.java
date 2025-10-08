@@ -1,8 +1,6 @@
 package com.example.adventurexpbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,15 +15,15 @@ public class Activity {
     private String name;
     @Column(length = 1000)
     private String description;
-    private int price; //price is in EUR.
+    private int price; //price is in DKK
     private int duration; //duration is measured in hours, i.e 1 = 1 hour.
 
     @ManyToMany(mappedBy = "activities")
-    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     List<EventPackage> eventPackages = new ArrayList<>();
 
     @OneToMany(mappedBy = "activity")
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     List<Booking> bookings = new ArrayList<>();
 
     public Activity(String name, String description, int price, int duration) {
