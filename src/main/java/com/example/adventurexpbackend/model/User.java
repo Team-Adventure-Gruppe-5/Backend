@@ -1,7 +1,9 @@
 package com.example.adventurexpbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class User {
     private int phoneNumber;
 
     @OneToMany(mappedBy = "user") //points at the "user" field in booking class
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //stops infinite JSON loops in relationships + sends reference IDs instead of repeating the entire object
     List<Booking> bookings;
 
     public User() {

@@ -13,7 +13,9 @@ public class BookingRequest {
     private int participents;
     private Date date;
     private int time;
-    private int activityId;
+    private Integer activityId; //nullable
+    private Integer packageId; //nullable
+
 
     public String getFirstname() {
         return firstname;
@@ -71,11 +73,19 @@ public class BookingRequest {
         this.time = time;
     }
 
-    public int getActivityId() {
+    public Integer getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(int activityId) {
+    public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+    }
+
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
     }
 }

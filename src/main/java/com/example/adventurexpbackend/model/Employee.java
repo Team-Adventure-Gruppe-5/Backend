@@ -1,10 +1,7 @@
 package com.example.adventurexpbackend.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Employee {
@@ -17,11 +14,15 @@ public class Employee {
     private String username;
     private String password;
 
-    public Employee(String firstname, String lastname, String username, String password) {
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public Employee(String firstname, String lastname, String username, String password, Role role) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public Employee() {
@@ -65,5 +66,13 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

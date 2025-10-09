@@ -1,11 +1,9 @@
 package com.example.adventurexpbackend.controller;
 
-import com.example.adventurexpbackend.model.Activity;
-import com.example.adventurexpbackend.model.Booking;
-import com.example.adventurexpbackend.model.BookingRequest;
-import com.example.adventurexpbackend.model.User;
+import com.example.adventurexpbackend.model.*;
 import com.example.adventurexpbackend.repository.ActivityRepo;
 import com.example.adventurexpbackend.repository.BookingRepo;
+import com.example.adventurexpbackend.repository.EventPackageRepo;
 import com.example.adventurexpbackend.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +27,22 @@ public class BookingController {
     @Autowired
     ActivityRepo activityRepo;
 
+    @Autowired
+    EventPackageRepo eventPackageRepo;
+
     @GetMapping("/booking-confirmation/{id}")
-    public ResponseEntity<Booking> getBookingConfirmation(@PathVariable int id){
+    public ResponseEntity<Booking> getBookingConfirmation(@PathVariable int id) {
         Optional<Booking> booking = bookingRepo.findById(id);
 
-        if(booking.isPresent()){
+        if (booking.isPresent()) {
             return ResponseEntity.ok(booking.get());
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/booking")
-    public ResponseEntity<Booking> postBooking(@RequestBody BookingRequest bookingRequest){
+    public ResponseEntity<Booking> postBooking(@RequestBody BookingRequest bookingRequest) {
 
         User user = new User();
         user.setFirstname(bookingRequest.getFirstname());
@@ -50,11 +51,18 @@ public class BookingController {
         user.setPhoneNumber(bookingRequest.getPhoneNumber());
         userRepo.save(user);
 
-        Activity activity = activityRepo.findById(bookingRequest.getActivityId()).orElseThrow(() -> new RuntimeException("activity not found"));
-
         Booking booking = new Booking();
         booking.setUser(user);
-        booking.setActivity(activity);
+        if (bookingRequest.getActivityId() != null) {
+            Activity activity = activityRepo.findById(bookingRequest.getActivityId()).orElseThrow(() -> new RuntimeException("activity not found"));
+            booking.setActivity(activity);
+        }else if(bookingRequest.getPackageId() != null){
+            EventPackage eventPackage = eventPackageRepo.findById(bookingRequest.getPackageId()).orElseThrow(() -> new RuntimeException("package not found"));
+            booking.setaPackage(eventPackage);
+        } else{
+            throw new RuntimeException("No activityId or packageId is found");
+        }
+
         booking.setParticipents(bookingRequest.getParticipents());
         booking.setDate(bookingRequest.getDate());
         booking.setTime(bookingRequest.getTime());
