@@ -15,15 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin("*")
 public class LoginController {
-
-    private final EmployeeRepo employeeRepo;
+    @Autowired
+    EmployeeRepo employeeRepo;
 
     @Autowired
     CustomerRepo customerRepo;
-
-    public LoginController(EmployeeRepo employeeRepo) {
-        this.employeeRepo = employeeRepo;
-    }
 
 
     @PostMapping("/login")
