@@ -4,22 +4,21 @@ package com.example.adventurexpbackend.controller;
 import com.example.adventurexpbackend.model.Employee;
 import com.example.adventurexpbackend.model.LoginRequest;
 import com.example.adventurexpbackend.repository.EmployeeRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
 public class LoginController {
 
-    private final EmployeeRepo employeeRepo;
+    @Autowired
+    EmployeeRepo employeeRepo;
 
-    public LoginController(EmployeeRepo employeeRepo) {
-        this.employeeRepo = employeeRepo;
-    }
 
 
     @PostMapping("/login")
