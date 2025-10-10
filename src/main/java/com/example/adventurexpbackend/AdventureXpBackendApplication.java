@@ -55,16 +55,16 @@ public class AdventureXpBackendApplication {
 
             //creates a list of employees
             final List<Employee> employees = new ArrayList<>();
-            employees.add(new Employee("Lærke", "Lønborg", "lalo", "1234"));
-            employees.add(new Employee("Kasper", "Persson", "kape", "1234"));
-            employees.add(new Employee("Cami", "Hansen", "caha", "1234"));
-            employees.add(new Employee("Brandon", "Walsh", "brwa", "1234"));
-            employees.add(new Employee("Andrea", "Zuckerman", "anzu", "1234"));
-            employees.add(new Employee("Kelly", "Taylor", "keta", "1234"));
-            employees.add(new Employee("Dylan", "McKay", "dymc", "1234"));
-            employees.add(new Employee("Steve", "Sanders", "stsa", "1234"));
-            employees.add(new Employee("Donna", "Martin", "doma", "1234"));
-            employees.add(new Employee("David", "Silver", "dasi", "1234"));
+            employees.add(new Employee("Lærke", "Lønborg", "lalo", "1234", Role.ADMIN));
+            employees.add(new Employee("Kasper", "Persson", "kape", "1234", Role.ADMIN));
+            employees.add(new Employee("Cami", "Hansen", "caha", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Brandon", "Walsh", "brwa", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Andrea", "Zuckerman", "anzu", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Kelly", "Taylor", "keta", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Dylan", "McKay", "dymc", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Steve", "Sanders", "stsa", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("Donna", "Martin", "doma", "1234", Role.ACTIVITY_EMPLOYEE));
+            employees.add(new Employee("David", "Silver", "dasi", "1234", Role.ACTIVITY_EMPLOYEE));
             employeeRepo.saveAll(employees);
 
 
