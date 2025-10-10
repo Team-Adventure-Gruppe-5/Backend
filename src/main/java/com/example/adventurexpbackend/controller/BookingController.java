@@ -5,11 +5,17 @@ import com.example.adventurexpbackend.repository.ActivityRepo;
 import com.example.adventurexpbackend.repository.BookingRepo;
 import com.example.adventurexpbackend.repository.EventPackageRepo;
 import com.example.adventurexpbackend.repository.CustomerRepo;
+import com.example.adventurexpbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
+import java.awt.print.Book;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +33,8 @@ public class BookingController {
 
     @Autowired
     EventPackageRepo eventPackageRepo;
+    @Autowired
+    private EmployeeRepo employeeRepo;
 
     @GetMapping("/booking-confirmation/{id}")
     public ResponseEntity<Booking> getBookingConfirmation(@PathVariable int id) {
@@ -74,5 +82,34 @@ public class BookingController {
         List<Booking> bookings = bookingRepo.findAll();
         return ResponseEntity.ok(bookings);
     }
+
+
+    @PutMapping("/booking/{bookingId}/employees/{employeeId}")
+    public ResponseEntity<?> assignEmployeeToBooking(@PathVariable int bookingId, @PathVariable int employeeId) {
+        Optional<Booking> optionalBooking = bookingRepo.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Booking not found"));
+        }
+
+        Optional<Employee> optionalEmployee = employeeRepo.findById(employeeId);
+        if (optionalEmployee.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Employee not found"));
+        }
+
+        Booking booking = optionalBooking.get();
+        Employee employee = optionalEmployee.get();
+
+        booking.getEmployees().add(employee);
+
+        bookingRepo.save(booking);
+
+        return ResponseEntity.ok(Map.of("message", "Employee assigned successfully!"));
+    }
+
+
+
+
 
 }
