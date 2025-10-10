@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 public class LoginController {
@@ -51,6 +53,16 @@ public class LoginController {
         return ResponseEntity.ok(customer);
     }
 
+    @GetMapping("/login-customer/{id}")
+    public ResponseEntity<Customer> getCustomerById (@PathVariable int id){
+        Optional<Customer> customer = customerRepo.findById(id);
 
+        if(customer.isPresent()){
+            return ResponseEntity.ok(customer.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
 
 }
