@@ -1,18 +1,28 @@
 package com.example.adventurexpbackend.controller;
 
 
+import com.example.adventurexpbackend.model.Customer;
 import com.example.adventurexpbackend.model.Employee;
+import com.example.adventurexpbackend.model.LoginCustomerRequest;
 import com.example.adventurexpbackend.model.LoginRequest;
+import com.example.adventurexpbackend.repository.CustomerRepo;
 import com.example.adventurexpbackend.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @CrossOrigin("*")
 public class LoginController {
+    @Autowired
+    EmployeeRepo employeeRepo;
 
+    @Autowired
+    CustomerRepo customerRepo;
     @Autowired
     EmployeeRepo employeeRepo;
 
@@ -29,6 +39,34 @@ public class LoginController {
         }
 
         return ResponseEntity.ok(employee);
+    }
+
+    @PostMapping("/login-customer")
+    public ResponseEntity<?> postLoginCustomer (@RequestBody LoginCustomerRequest loginCustomerRequest){
+        Customer customer = customerRepo.findByMail(loginCustomerRequest.getMail());
+        if(customer == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Customer not found");
+        }
+
+        boolean bookingExists = customer.getBookings().stream().anyMatch(b -> b.getId() == loginCustomerRequest.getBookingId());
+
+        if(!bookingExists){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Booking ID not found");
+        }
+
+        return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/login-customer/{id}")
+    public ResponseEntity<Customer> getCustomerById (@PathVariable int id){
+        Optional<Customer> customer = customerRepo.findById(id);
+
+        if(customer.isPresent()){
+            return ResponseEntity.ok(customer.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
