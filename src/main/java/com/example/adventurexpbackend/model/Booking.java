@@ -3,7 +3,7 @@ package com.example.adventurexpbackend.model;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Booking {
@@ -30,6 +30,16 @@ public class Booking {
     @JoinColumn(name = "eventpackage_id", nullable = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     EventPackage eventPackage;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "booking_employee",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Employee> employees = new ArrayList<>();
+
 
     public Booking() {
     }
@@ -96,5 +106,13 @@ public class Booking {
 
     public void setaPackage(EventPackage aEventPackage) {
         this.eventPackage = aEventPackage;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }

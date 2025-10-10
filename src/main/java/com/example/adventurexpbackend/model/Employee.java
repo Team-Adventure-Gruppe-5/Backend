@@ -3,6 +3,9 @@ package com.example.adventurexpbackend.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Employee {
 
@@ -16,6 +19,9 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToMany(mappedBy = "employees")
+    private Set<Booking> bookings = new HashSet<>();
 
     public Employee(String firstname, String lastname, String username, String password, Role role) {
         this.firstname = firstname;
