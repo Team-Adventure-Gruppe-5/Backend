@@ -4,13 +4,11 @@ import com.example.adventurexpbackend.model.*;
 import com.example.adventurexpbackend.repository.ActivityRepo;
 import com.example.adventurexpbackend.repository.BookingRepo;
 import com.example.adventurexpbackend.repository.EventPackageRepo;
-import com.example.adventurexpbackend.repository.UserRepo;
+import com.example.adventurexpbackend.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +20,7 @@ public class BookingController {
     BookingRepo bookingRepo;
 
     @Autowired
-    UserRepo userRepo;
+    CustomerRepo customerRepo;
 
     @Autowired
     ActivityRepo activityRepo;
@@ -44,21 +42,21 @@ public class BookingController {
     @PostMapping("/booking")
     public ResponseEntity<Booking> postBooking(@RequestBody BookingRequest bookingRequest) {
 
-        User user = new User();
-        user.setFirstname(bookingRequest.getFirstname());
-        user.setLastname(bookingRequest.getLastname());
-        user.setMail(bookingRequest.getMail());
-        user.setPhoneNumber(bookingRequest.getPhoneNumber());
-        userRepo.save(user);
+        Customer customer = new Customer();
+        customer.setFirstname(bookingRequest.getFirstname());
+        customer.setLastname(bookingRequest.getLastname());
+        customer.setMail(bookingRequest.getMail());
+        customer.setPhoneNumber(bookingRequest.getPhoneNumber());
+        customerRepo.save(customer);
 
         Booking booking = new Booking();
-        booking.setUser(user);
+        booking.setCustomer(customer);
         if (bookingRequest.getActivityId() != null) {
             Activity activity = activityRepo.findById(bookingRequest.getActivityId()).orElseThrow(() -> new RuntimeException("activity not found"));
             booking.setActivity(activity);
         }else if(bookingRequest.getPackageId() != null){
             EventPackage eventPackage = eventPackageRepo.findById(bookingRequest.getPackageId()).orElseThrow(() -> new RuntimeException("package not found"));
-            booking.setaPackage(eventPackage);
+            booking.setEventPackage(eventPackage);
         } else{
             throw new RuntimeException("No activityId or packageId is found");
         }
