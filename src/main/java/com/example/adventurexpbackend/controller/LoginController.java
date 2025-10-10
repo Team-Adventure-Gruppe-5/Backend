@@ -23,8 +23,7 @@ public class LoginController {
 
     @Autowired
     CustomerRepo customerRepo;
-    @Autowired
-    EmployeeRepo employeeRepo;
+
 
 
 
