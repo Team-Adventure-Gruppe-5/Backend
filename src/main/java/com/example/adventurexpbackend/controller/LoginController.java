@@ -1,10 +1,8 @@
 package com.example.adventurexpbackend.controller;
 
 
-import com.example.adventurexpbackend.model.Customer;
-import com.example.adventurexpbackend.model.Employee;
-import com.example.adventurexpbackend.model.LoginCustomerRequest;
-import com.example.adventurexpbackend.model.LoginRequest;
+import com.example.adventurexpbackend.model.*;
+import com.example.adventurexpbackend.repository.BookingRepo;
 import com.example.adventurexpbackend.repository.CustomerRepo;
 import com.example.adventurexpbackend.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +64,6 @@ public class LoginController {
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
 }
