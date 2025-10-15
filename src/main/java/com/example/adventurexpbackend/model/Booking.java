@@ -12,6 +12,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String time;
     private int participents;

@@ -11,6 +11,7 @@ public class BookingRequest {
     private String mail;
     private int phoneNumber;
     private int participents;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String time;
     private Integer activityId; //nullable
