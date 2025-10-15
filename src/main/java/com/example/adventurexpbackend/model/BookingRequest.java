@@ -12,7 +12,7 @@ public class BookingRequest {
     private int phoneNumber;
     private int participents;
     private Date date;
-    private int time;
+    private String time;
     private Integer activityId; //nullable
     private Integer packageId; //nullable
 
@@ -65,11 +65,11 @@ public class BookingRequest {
         this.date = date;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
