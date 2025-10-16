@@ -10,8 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,9 +25,6 @@ public class LoginController {
 
     @Autowired
     CustomerRepo customerRepo;
-
-
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
@@ -40,30 +40,41 @@ public class LoginController {
     }
 
     @PostMapping("/login-customer")
-    public ResponseEntity<?> postLoginCustomer (@RequestBody LoginCustomerRequest loginCustomerRequest){
+    public ResponseEntity<?> postLoginCustomer(@RequestBody LoginCustomerRequest loginCustomerRequest) {
         Customer customer = customerRepo.findByMail(loginCustomerRequest.getMail());
-        if(customer == null){
+        if (customer == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Customer not found");
         }
 
         boolean bookingExists = customer.getBookings().stream().anyMatch(b -> b.getId() == loginCustomerRequest.getBookingId());
 
-        if(!bookingExists){
+        if (!bookingExists) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Booking ID not found");
         }
 
         return ResponseEntity.ok(customer);
     }
 
-    @GetMapping("/login-customer/{id}")
-    public ResponseEntity<Customer> getCustomerById (@PathVariable int id){
-        Optional<Customer> customer = customerRepo.findById(id);
+    @GetMapping("/login-customer/{customerId}/booking/{bookingId}")
+    public ResponseEntity<?> getCustomerById(@PathVariable int customerId, @PathVariable int bookingId) {
+        Optional<Customer> customer = customerRepo.findById(customerId);
 
-        if(customer.isPresent()){
-            return ResponseEntity.ok(customer.get());
-        } else {
+        if (customer.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-    }
 
+        Customer customerLoggedIn = customer.get();
+
+        Optional<Booking> booking = customerLoggedIn.getBookings().stream().filter(b -> b.getId() == bookingId).findFirst();
+
+        if (booking.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("customer", customerLoggedIn);
+        response.put("booking", booking);
+
+        return ResponseEntity.ok(response);
+    }
 }

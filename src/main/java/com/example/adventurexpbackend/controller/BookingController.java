@@ -11,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import java.awt.print.Book;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,12 +47,17 @@ public class BookingController {
     @PostMapping("/booking")
     public ResponseEntity<Booking> postBooking(@RequestBody BookingRequest bookingRequest) {
 
-        Customer customer = new Customer();
-        customer.setFirstname(bookingRequest.getFirstname());
-        customer.setLastname(bookingRequest.getLastname());
-        customer.setMail(bookingRequest.getMail());
-        customer.setPhoneNumber(bookingRequest.getPhoneNumber());
-        customerRepo.save(customer);
+        Customer customer = customerRepo.findByMail(bookingRequest.getMail());
+
+        if(customer == null){
+            customer = new Customer();
+            customer.setFirstname(bookingRequest.getFirstname());
+            customer.setLastname(bookingRequest.getLastname());
+            customer.setMail(bookingRequest.getMail());
+            customer.setPhoneNumber(bookingRequest.getPhoneNumber());
+            customerRepo.save(customer);
+
+        }
 
         Booking booking = new Booking();
         booking.setCustomer(customer);
@@ -77,7 +79,7 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
-    @GetMapping("/bookings") //change later for "/employee/{employeeid}/bookings" when employee and booking have a relation
+    @GetMapping("/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
         List<Booking> bookings = bookingRepo.findAll();
         return ResponseEntity.ok(bookings);
