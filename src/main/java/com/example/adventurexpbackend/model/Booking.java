@@ -12,8 +12,9 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
-    private int time;
+    private String time;
     private int participents;
 
     @ManyToOne //owns the relationship
@@ -68,11 +69,11 @@ public class Booking {
         this.date = date;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
