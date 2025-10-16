@@ -11,8 +11,9 @@ public class BookingRequest {
     private String mail;
     private int phoneNumber;
     private int participents;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
-    private int time;
+    private String time;
     private Integer activityId; //nullable
     private Integer packageId; //nullable
 
@@ -65,11 +66,11 @@ public class BookingRequest {
         this.date = date;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
