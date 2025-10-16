@@ -64,9 +64,11 @@ public class BookingController {
         if (bookingRequest.getActivityId() != null) {
             Activity activity = activityRepo.findById(bookingRequest.getActivityId()).orElseThrow(() -> new RuntimeException("activity not found"));
             booking.setActivity(activity);
+            booking.setName(activity.getName());
         }else if(bookingRequest.getPackageId() != null){
             EventPackage eventPackage = eventPackageRepo.findById(bookingRequest.getPackageId()).orElseThrow(() -> new RuntimeException("package not found"));
             booking.setEventPackage(eventPackage);
+            booking.setName(eventPackage.getName());
         } else{
             throw new RuntimeException("No activityId or packageId is found");
         }
