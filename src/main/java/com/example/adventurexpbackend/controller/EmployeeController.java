@@ -36,7 +36,7 @@ public class EmployeeController {
             employeeRepo.deleteById(id);
             return ResponseEntity.ok("Employee deleted");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not Found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
         }
     }
 }
