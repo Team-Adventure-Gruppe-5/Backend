@@ -31,6 +31,16 @@ public class Employee {
         this.role = role;
     }
 
+    //TODO Test-Controller
+    public Employee(int id, String firstname, String lastname, String username, String password, Role role) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public Employee() {
     }
 
